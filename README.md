@@ -4,4 +4,4 @@ This is the branch for Java training, focusing on Spring Framework with the help
 ...
 ## Contributing members
 - Bui Tien Dung
-- Kieu Anh Son
+- Nguyen Quang Loi
