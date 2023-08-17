@@ -32,6 +32,7 @@
                 <th>First Name</th>
                 <th>Last Name</th>
                 <th>DOB</th>
+                <th>Address</th>
                 <th>Class</th>
                 <th></th>
                 <th></th>
@@ -43,6 +44,7 @@
                     <td>${s.getLastName()}</td>
                     <fmt:parseDate value="${s.getDob()}" pattern="yyyy-MM-dd" var="parsedDate" type="date"/>
                     <td><fmt:formatDate type="date" pattern="dd/MM/yyyy" value="${parsedDate}"/></td>
+                    <td>${s.getAddress()}</td>
                     <td>${s.getStudentClass().getClassName()}</td>
                     <td><a href="${pageContext.request.contextPath}/student/${s.getId()}">Detail</a></td>
                     <td><a href="${pageContext.request.contextPath}/student/${s.getId()}/delete">Delete</a></td>
