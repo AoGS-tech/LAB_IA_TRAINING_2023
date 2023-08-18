@@ -1,3 +1,5 @@
+create database student_management;
+use student_management;
 -- MySQL dump 10.13  Distrib 8.1.0, for Win64 (x86_64)
 --
 -- Host: localhost    Database: student_management
