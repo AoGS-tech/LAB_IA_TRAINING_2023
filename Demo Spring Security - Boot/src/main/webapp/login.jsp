@@ -13,6 +13,9 @@
     </head>
     <body>
         <h1>Login</h1>
+        <c:if test="${not empty param['error']}">
+            <p style="color:red">Incorrect username or password!</p>
+        </c:if>
         <form action="login" method="POST">
             <label>Username:</label>
             <input type="text" name="username"/> <br/>

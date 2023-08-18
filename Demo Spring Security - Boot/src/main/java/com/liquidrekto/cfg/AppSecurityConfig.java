@@ -11,6 +11,7 @@ import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
@@ -35,20 +36,24 @@ public class AppSecurityConfig {
         return provider;
     }
 
+
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-        http.csrf(csrf -> csrf.disable())
-                .authorizeHttpRequests(auth -> auth
-                .requestMatchers(new AntPathRequestMatcher("/login")).permitAll()
-                .anyRequest().authenticated())
-                .formLogin(formLogin -> formLogin
-                .loginPage("/login").permitAll())
-                .logout(logout -> logout
-                .invalidateHttpSession(true)
-                .clearAuthentication(true)
-                .logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
-                .logoutSuccessUrl("/logout-success").permitAll());
+
+            http.csrf(csrf -> csrf.disable())
+                    .authorizeHttpRequests(auth -> {
+                        auth
+                                .requestMatchers(new AntPathRequestMatcher("/login")).permitAll()
+                                .anyRequest().authenticated();
+                    })
+                    .formLogin(formLogin -> {
+                        formLogin.loginPage("/login.jsp").permitAll()
+                                .loginProcessingUrl("/login")
+                                .failureUrl("/login.jsp?error=true");
+                    });
+                    
         return http.build();
+        
     }
 
     /*
