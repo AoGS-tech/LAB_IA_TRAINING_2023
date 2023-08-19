@@ -9,7 +9,6 @@ import com.mycompany.hbm.entity.Employee;
 import java.util.Properties;
 import org.hibernate.HibernateException;
 import org.hibernate.SessionFactory;
-import org.hibernate.boot.registry.StandardServiceRegistry;
 import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
 import org.hibernate.cfg.Configuration;
 import org.hibernate.cfg.Environment;
@@ -26,18 +25,17 @@ public class HibernateUtils {
     static {
         try{
         Configuration configuration = new Configuration();
-
+        //Set up connection between your app and mysql
         Properties properties = new Properties();
-        properties.put(Environment.DRIVER,"com.mysql.cj.jdbc.Driver");
-        properties.put(Environment.DIALECT,"org.hibernate.dialect.MySQLDialect");
-        properties.put(Environment.URL,"jdbc:mysql://localhost:3306/hbm");
+        properties.put(Environment.DRIVER,"com.mysql.cj.jdbc.Driver"); //classname of JDBC driver
+        properties.put(Environment.DIALECT,"org.hibernate.dialect.MySQLDialect"); //name of Dialect subclass
+        properties.put(Environment.URL,"jdbc:mysql://localhost:3306/hbm"); //JDBC URL (when using DriverManager)
         properties.put(Environment.USER, "root");
         properties.put(Environment.PASS, "1");
-        properties.put(Environment.SHOW_SQL,"true");
-//        properties.put(Environment.CURRENT_SESSION_CONTEXT_CLASS,"thread");
-        properties.put(Environment.HBM2DDL_AUTO, "update");
+        properties.put(Environment.SHOW_SQL,"true");//Enables logging of generated SQL to the console.
+        properties.put(Environment.HBM2DDL_AUTO, "update"); //enable auto DDL(Data Defination Language) export
         configuration.setProperties(properties);
-        
+        //Add class and hibernate will automatically do jobs with Department and Employee classes
         configuration = configuration.addAnnotatedClass(Department.class);
         configuration = configuration.addAnnotatedClass(Employee.class);
         

@@ -20,8 +20,8 @@ import jakarta.persistence.Table;
 public class Department {
     @Id
     @Column(name = "id")
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private int id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private long id;
     
     @Column(name = "name", nullable = false)
     private String name;
@@ -36,7 +36,7 @@ public class Department {
         this.name = name;
     }
 
-    public int getId() {
+    public long getId() {
         return id;
     }
 
