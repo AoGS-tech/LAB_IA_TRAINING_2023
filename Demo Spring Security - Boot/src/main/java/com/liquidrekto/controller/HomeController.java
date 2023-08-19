@@ -5,6 +5,7 @@
 package com.liquidrekto.controller;
 
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 /**
@@ -18,10 +19,11 @@ public class HomeController {
         return "home.jsp";
     }
     
-    @RequestMapping("/login")
+    @GetMapping("/login")
     public String login() {
         return "login.jsp";
     }
+
     
     @RequestMapping("/logout-success")
     public String logout() {
