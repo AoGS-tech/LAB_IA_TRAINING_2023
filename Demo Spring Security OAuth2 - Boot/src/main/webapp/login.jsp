@@ -10,14 +10,13 @@
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>JSP Page</title>
-        <%@include file="common.jsp" %>
     </head>
     <body>
         <h1>Login</h1>
         <c:if test="${not empty param['error']}">
             <p style="color:red">Incorrect username or password!</p>
         </c:if>
-        <form action="login-process" method="POST">
+        <form action="login" method="POST">
             <label>Username:</label>
             <input type="text" name="username"/> <br/>
             <label>Password:</label>

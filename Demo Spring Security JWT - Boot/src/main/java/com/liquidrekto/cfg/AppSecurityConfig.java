@@ -11,12 +11,11 @@ import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
-import org.springframework.security.web.servlet.util.matcher.MvcRequestMatcher;
-import static org.springframework.security.web.util.matcher.AntPathRequestMatcher.antMatcher;
-import org.springframework.web.servlet.handler.HandlerMappingIntrospector;
+import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 /**
  *
@@ -36,36 +35,25 @@ public class AppSecurityConfig {
         provider.setPasswordEncoder(new BCryptPasswordEncoder());
         return provider;
     }
-    
-    @Bean
-    MvcRequestMatcher.Builder mvc(HandlerMappingIntrospector introspector) {
-        return new MvcRequestMatcher.Builder(introspector).servletPath("/springsecuritybootdemo/");
-    }
+
 
     @Bean
-    public SecurityFilterChain filterChain(HttpSecurity http, MvcRequestMatcher.Builder mvc) throws Exception {
-        
+    public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
 
-        http.csrf(csrf -> csrf.disable())
-                .authorizeHttpRequests(auth -> {
-                    auth
-                            .requestMatchers(antMatcher("/profile")).authenticated()
-                            .requestMatchers(antMatcher("/admin**")).hasRole("ADMIN")
-                            .anyRequest().permitAll();
-                })
-                .formLogin(formLogin -> {
-                    formLogin.loginPage("/login").permitAll()
-                            .loginProcessingUrl("/login-process")
-                            .failureUrl("/login?error=true");
-                })
-                .logout(logout -> logout.invalidateHttpSession(true) // invalidates the HttpSession
-                .clearAuthentication(true) // clears the SecurityContextHolder
-                .logoutRequestMatcher(antMatcher("/logout")) // specifies the URL to trigger a logout
-                .logoutSuccessUrl("/") // specifies the URL to redirect to after a successful logout
-                .permitAll());
-
+            http.csrf(csrf -> csrf.disable())
+                    .authorizeHttpRequests(auth -> {
+                        auth
+                                .requestMatchers(new AntPathRequestMatcher("/login")).permitAll()
+                                .anyRequest().authenticated();
+                    })
+                    .formLogin(formLogin -> {
+                        formLogin.loginPage("/login.jsp").permitAll()
+                                .loginProcessingUrl("/login")
+                                .failureUrl("/login.jsp?error=true");
+                    });
+                    
         return http.build();
-
+        
     }
 
     /*
