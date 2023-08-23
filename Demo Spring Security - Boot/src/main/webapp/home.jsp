@@ -13,14 +13,26 @@
         <%@include file="common.jsp" %>
     </head>
     <body class="text-center">
-        <h1 class="mt-4">Welcome to my page!</h1>
+        <h1 class="mt-4">FPT School Management System</h1>
         <c:if test="${user eq null}">
-            <p> It seems like you haven't been logged in yet </p>
+            <p>Please sign in to access the dashboard</p>
             <a href="${pageContext.request.contextPath}/login" type="button" class="btn btn-primary"> Login now </a>
+            <a href="${pageContext.request.contextPath}/register" type="button" class="btn btn-light"> Register account </a>
         </c:if>
         <c:if test="${user ne null}">
-            <p> Glad to see you, <span class="text-info">${user}</span>!</p>
-            <a href="${pageContext.request.contextPath}/logout" type="button" class="btn btn-danger"> Log out </a>
+            <p> Glad to see you back, <span class="text-info">${user}</span> with roles 
+                <c:forEach items="${roles}" var="r" varStatus="status">
+                    <span class="text-info">${r}</span>
+                    <c:if test="${!status.last}">
+                        ,
+                    </c:if>
+                </c:forEach>
+                !</p>
+            <a href="${pageContext.request.contextPath}/admin/facilities" type="button" class="my-2 btn btn-light"> Facility management </a> <br/>
+            <a href="${pageContext.request.contextPath}/teacher/takeattendance" type="button" class="my-2 btn btn-light"> Take attendance </a> <br/>
+            <a href="${pageContext.request.contextPath}/student/registerclass" type="button" class="my-2 btn btn-light"> Register class </a> <br/>
+            <a href="${pageContext.request.contextPath}/profile" type="button" class="my-2 btn btn-light"> View profile </a> <br/>
+            <a href="${pageContext.request.contextPath}/logout" type="button" class="my-2 btn btn-danger"> Log out </a>
         </c:if>
         
     </body>

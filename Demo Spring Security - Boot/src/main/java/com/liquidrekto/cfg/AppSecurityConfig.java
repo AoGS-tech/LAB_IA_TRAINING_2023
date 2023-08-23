@@ -47,10 +47,13 @@ public class AppSecurityConfig {
         
 
         http.csrf(csrf -> csrf.disable())
+                
                 .authorizeHttpRequests(auth -> {
                     auth
                             .requestMatchers(antMatcher("/profile")).authenticated()
-                            .requestMatchers(antMatcher("/admin**")).hasRole("ADMIN")
+                            .requestMatchers(antMatcher("/admin/**")).hasAuthority("USER_ADMIN")
+                            .requestMatchers(antMatcher("/student/**")).hasAnyAuthority("USER_STUDENT","USER_ADMIN")
+                            .requestMatchers(antMatcher("/teacher/**")).hasAnyAuthority("USER_TEACHER","USER_ADMIN")
                             .anyRequest().permitAll();
                 })
                 .formLogin(formLogin -> {
@@ -58,11 +61,13 @@ public class AppSecurityConfig {
                             .loginProcessingUrl("/login-process")
                             .failureUrl("/login?error=true");
                 })
+                .exceptionHandling(ex -> ex.accessDeniedPage("/403"))
                 .logout(logout -> logout.invalidateHttpSession(true) // invalidates the HttpSession
                 .clearAuthentication(true) // clears the SecurityContextHolder
                 .logoutRequestMatcher(antMatcher("/logout")) // specifies the URL to trigger a logout
                 .logoutSuccessUrl("/") // specifies the URL to redirect to after a successful logout
                 .permitAll());
+                
 
         return http.build();
 
