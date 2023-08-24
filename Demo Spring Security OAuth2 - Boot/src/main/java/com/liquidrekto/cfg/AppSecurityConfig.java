@@ -39,7 +39,7 @@ public class AppSecurityConfig {
                             .requestMatchers(antMatcher("/teacher/**")).hasAnyAuthority("USER_TEACHER","USER_ADMIN")
                             .anyRequest().permitAll();
                 })
-                .oauth2Login(oauth -> oauth.loginPage("/login"))
+                .oauth2Login(withDefaults())
                 .exceptionHandling(ex -> ex.accessDeniedPage("/403"))
                 .logout(logout -> logout.invalidateHttpSession(true) // invalidates the HttpSession
                 .clearAuthentication(true) // clears the SecurityContextHolder
