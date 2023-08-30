@@ -4,18 +4,24 @@
  */
 package com.liquidrekto.cfg;
 
+import com.liquidrekto.filter.JwtAuthFilter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
+import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
-import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
+import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
-import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.security.web.servlet.util.matcher.MvcRequestMatcher;
+import static org.springframework.security.web.util.matcher.AntPathRequestMatcher.antMatcher;
+import org.springframework.web.servlet.handler.HandlerMappingIntrospector;
 
 /**
  *
@@ -24,6 +30,9 @@ import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 @Configuration
 @EnableWebSecurity
 public class AppSecurityConfig {
+    
+    @Autowired
+    private JwtAuthFilter authFilter;
 
     @Autowired
     private UserDetailsService userDetailsSvc;
@@ -35,25 +44,47 @@ public class AppSecurityConfig {
         provider.setPasswordEncoder(new BCryptPasswordEncoder());
         return provider;
     }
-
+    
+    @Bean
+    public AuthenticationManager authManager(AuthenticationConfiguration authCfg) throws Exception {
+        return authCfg.getAuthenticationManager();
+    }
+    
+    @Bean
+    MvcRequestMatcher.Builder mvc(HandlerMappingIntrospector introspector) {
+        return new MvcRequestMatcher.Builder(introspector).servletPath("/springsecuritybootdemo/");
+    }
 
     @Bean
-    public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-
-            http.csrf(csrf -> csrf.disable())
-                    .authorizeHttpRequests(auth -> {
-                        auth
-                                .requestMatchers(new AntPathRequestMatcher("/login")).permitAll()
-                                .anyRequest().authenticated();
-                    })
-                    .formLogin(formLogin -> {
-                        formLogin.loginPage("/login.jsp").permitAll()
-                                .loginProcessingUrl("/login")
-                                .failureUrl("/login.jsp?error=true");
-                    });
-                    
-        return http.build();
+    public SecurityFilterChain filterChain(HttpSecurity http, MvcRequestMatcher.Builder mvc) throws Exception {
         
+
+        http.csrf(csrf -> csrf.disable())
+                
+                .authorizeHttpRequests(auth -> {
+                    auth
+                            .requestMatchers(antMatcher("/profile")).authenticated()
+                            .requestMatchers(antMatcher("/admin/**")).hasAuthority("USER_ADMIN")
+                            .requestMatchers(antMatcher("/student/**")).hasAnyAuthority("USER_STUDENT","USER_ADMIN")
+                            .requestMatchers(antMatcher("/teacher/**")).hasAnyAuthority("USER_TEACHER","USER_ADMIN")
+                            .anyRequest().permitAll();
+                })
+                .sessionManagement(sessMng -> 
+                        sessMng
+                        .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+                )
+                .authenticationProvider(authProvider())
+                .addFilterBefore(authFilter, UsernamePasswordAuthenticationFilter.class)
+                .exceptionHandling(ex -> ex.accessDeniedPage("/403"))
+                .logout(logout -> logout.invalidateHttpSession(true) // invalidates the HttpSession
+                .clearAuthentication(true) // clears the SecurityContextHolder
+                .logoutRequestMatcher(antMatcher("/logout")) // specifies the URL to trigger a logout
+                .logoutSuccessUrl("/") // specifies the URL to redirect to after a successful logout
+                .permitAll());
+                
+
+        return http.build();
+
     }
 
     /*

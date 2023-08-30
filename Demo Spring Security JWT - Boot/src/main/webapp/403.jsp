@@ -10,9 +10,11 @@
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>JSP Page</title>
+        <%@include file="common.jsp" %>
     </head>
-    <body>
-        <h1>Oh shit, you are here!</h1>
-        
+    <body class="text-center">
+        <h1 class="mt-4 text-danger">Access denied</h1>
+        <p>Sorry, you don't have permissions to access this page!</p>
+        <a href="${pageContext.request.contextPath}/" type="button" class="my-2 btn btn-danger"> Go back to home </a>
     </body>
 </html>

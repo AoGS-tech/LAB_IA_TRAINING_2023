@@ -10,19 +10,24 @@
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>JSP Page</title>
+        <%@include file="common.jsp" %>
     </head>
-    <body>
+    <body class="text-center">
         <h1>Login</h1>
         <c:if test="${not empty param['error']}">
             <p style="color:red">Incorrect username or password!</p>
         </c:if>
-        <form action="login" method="POST">
-            <label>Username:</label>
-            <input type="text" name="username"/> <br/>
-            <label>Password:</label>
-            <input type="password" name="password"/> <br/>
-            <input type="submit" value="Login"/>
+        <form class="w-25 my-0 mx-auto text-left" action="login-process" method="POST">
+            <div class="form-group">
+                <label for="exampleInputUsername">Username</label>
+                <input type="text" name="username" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter username...">
+            </div>
+            <div class="form-group">
+                <label for="exampleInputPassword">Password</label>
+                <input type="password" name="password" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter password...">
+            </div>
+            <input class="btn btn-primary" type="submit" value="Login"/>
         </form>
-        
+
     </body>
 </html>
