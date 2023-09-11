@@ -25,12 +25,11 @@ public class Department {
     @Column(name = "dname")
     private String dname;
 
-    public Department(int did, String dname) {
-        this.did = did;
-        this.dname = dname;
+    public Department() {
     }
 
-    public Department(String dname) {
+    public Department(int did, String dname) {
+        this.did = did;
         this.dname = dname;
     }
 

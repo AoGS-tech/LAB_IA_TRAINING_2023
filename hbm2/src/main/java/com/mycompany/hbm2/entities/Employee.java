@@ -34,17 +34,15 @@ public class Employee {
     @JoinColumn(name = "department")
     private Department department;
 
-    public Employee(int eid, String ename, Department department) {
-        this.eid = eid;
-        this.ename = ename;
-        this.department = department;
+    public Employee() {
     }
 
-    public Employee(String ename, Department department) {
+    public Employee(int eid, String ename, Date dob, Department department) {
+        this.eid = eid;
         this.ename = ename;
+        this.dob = dob;
         this.department = department;
     }
-    
 
     public int getEid() {
         return eid;

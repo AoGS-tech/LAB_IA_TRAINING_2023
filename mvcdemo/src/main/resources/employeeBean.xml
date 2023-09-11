@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+           http://www.springframework.org/schema/beans/spring-beans.xsd">
+    
+
+
+    <!-- Define an Employee bean -->
+    <bean id="employee" class="labia.training.mvcdemo.bean.Employee">
+        <property name="eid" value="101" />
+        <property name="ename" value="QuocAnhhoiga" />
+        
+        <!--or--> 
+        <!--<property name="address" ref="addr" />-->
+        <!--<constructor-arg name="address" ref="addr" />-->
+        
+        <!--SpEl-->
+        <property name="address" value="#{addr}"/>
+    </bean>
+    
+    <bean id="addr" class="labia.training.mvcdemo.bean.Address">
+        <property name="aid" value="Hanoi" />
+        <property name="details" value="Duytan" />
+    </bean>
+
+</beans>

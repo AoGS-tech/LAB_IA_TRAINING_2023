@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+           http://www.springframework.org/schema/beans/spring-beans.xsd">
+    
+
+
+    <bean id="hellocacban1" class="labia.training.mvndemo2.bean.Student" autowire="byName">
+        <property name="sid" value="01" />
+        <property name="sname" value="KCNDiep"/>
+        
+        <!--<property name="department" ref="dept"/>-->
+        <!--<constructor-arg name="department" ref="dept"/>-->
+    </bean>
+
+<!--    <bean id="hellocacban2" class="labia.training.mvndemo2.bean.Student">
+        <property name="sid" value="02" />
+        <property name="sname" value="Chien than 6 ngay k tam"/>
+    </bean>-->
+    
+<!--    <bean id="department" class="labia.training.mvndemo2.bean.Department2">
+        <property name="did" value="01" />
+        <property name="dname" value="God of K17"/>
+    </bean>-->
+    
+    <bean id="department2" class="labia.training.mvndemo2.bean.Department">
+        <property name="did" value="02" />
+        <property name="dname" value="God of K18"/>
+    </bean>
+    
+    <bean id="department3" class="labia.training.mvndemo2.bean.Department">
+        <property name="did" value="03" />
+        <property name="dname" value="God of K19"/>
+    </bean>
+</beans>

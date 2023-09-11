@@ -8,10 +8,8 @@ import com.mycompany.hbm2.entities.Department;
 import com.mycompany.hbm2.entities.Employee;
 import java.util.Properties;
 import org.hibernate.SessionFactory;
-import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
 import org.hibernate.cfg.Configuration;
 import org.hibernate.cfg.Environment;
-import org.hibernate.service.ServiceRegistry;
 
 /**
  *
@@ -32,6 +30,8 @@ public class HibernateUtils {
             properties.put(Environment.PASS, "1");
             properties.put(Environment.SHOW_SQL, "true");
             properties.put(Environment.HBM2DDL_AUTO, "update");
+            properties.put(Environment.USE_SECOND_LEVEL_CACHE, "true");
+            properties.put(Environment.CACHE_REGION_FACTORY, "org.hibernate.cache.ehcache.EhCacheRegionFactory");
             configuration.setProperties(properties);
             
             configuration = configuration.addAnnotatedClass(Department.class);
