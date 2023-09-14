@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\HelloController;
+use App\Http\Controllers\ProductController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -23,3 +24,15 @@ Route::get('/welcome', function () {
 });
 
 Route::post('/welcome', [HelloController::class, 'post']);
+
+Route::get('/product', [ProductController::class, 'index'])->name('product.index');
+
+Route::get('/product/create', [ProductController::class, 'create'])->name('product.create');
+
+Route::post('/product/create', [ProductController::class, 'save'])->name('product.save');
+
+Route::get('/product/update/{id}', [ProductController::class, 'update'])->name('product.update');
+
+Route::post('/product/save/{id}', [ProductController::class, 'confirmUpdate'])->name('product.edit');
+
+Route::delete('/product/delete/{id}', [ProductController::class, 'delete'])->name('product.delete');
