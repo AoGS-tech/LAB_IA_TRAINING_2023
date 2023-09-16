@@ -2,10 +2,10 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <groupId>labia.training</groupId>
-    <artifactId>mvc</artifactId>
+    <artifactId>MvcWebApp</artifactId>
     <version>1.0-SNAPSHOT</version>
     <packaging>war</packaging>
-    <name>mvc-1.0-SNAPSHOT</name>
+    <name>MvcWebApp-1.0-SNAPSHOT</name>
     
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -19,6 +19,7 @@
             <version>${jakartaee}</version>
             <scope>provided</scope>
         </dependency>
+       
         <dependency>
             <groupId>jakarta.persistence</groupId>
             <artifactId>jakarta.persistence-api</artifactId>

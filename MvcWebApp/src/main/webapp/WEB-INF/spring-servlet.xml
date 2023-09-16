@@ -18,7 +18,7 @@
         <property name="suffix" value=".jsp" />
     </bean>
     <!-- Provide support for component scanning -->  
-    <context:component-scan base-package="labia.training.mvc" />   
+    <context:component-scan base-package="labia.training.mvcwebapp" />   
     <!--Provide support for conversion, formatting and validation -->  
     <mvc:annotation-driven/> 
     <mvc:resources mapping="/resources/**" location="/resources/"/>
@@ -29,7 +29,7 @@
     
     <bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
         <property name="driverClassName" value="com.mysql.cj.jdbc.Driver" />
-        <property name="url" value="jdbc:mysql://localhost:3306/HbmInteMVC" />
+        <property name="url" value="jdbc:mysql://localhost:3306/HbmInteMVC1" />
         <property name="username" value="root" />
         <property name="password" value="1" />
     </bean>
@@ -38,7 +38,7 @@
           class="org.springframework.orm.hibernate5.LocalSessionFactoryBean">
         <property name="dataSource" 
                   ref="dataSource" /> <!-- Dependency Injection -->
-        <property name="packagesToScan" value="labia.training.mvc.entities" />
+        <property name="packagesToScan" value="labia.training.mvcwebapp.entities" />
         <property name="hibernateProperties">
             <props>
                 <prop key="hibernate.dialect">
@@ -48,6 +48,7 @@
                 <prop key="hibernate.current_session_context_class">
                     org.springframework.orm.hibernate5.SpringSessionContext
                 </prop>
+                <prop key="hibernate.hbm2ddl_auto">update</prop>
             </props>
         </property>
     </bean>
