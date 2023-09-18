@@ -27,6 +27,8 @@ Route::post('/welcome', [HelloController::class, 'post']);
 
 Route::get('/product', [ProductController::class, 'index'])->name('product.index');
 
+Route::get('/product/{product}', [ProductController::class, 'details'])->name('product.details');
+
 Route::get('/product/create', [ProductController::class, 'create'])->name('product.create');
 
 Route::post('/product/create', [ProductController::class, 'save'])->name('product.save');

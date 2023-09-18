@@ -3,13 +3,23 @@
 namespace App\Http\Controllers;
 
 use App\Models\Product;
+use App\Models\ProductDetails;
 use Illuminate\Http\Request;
 
 class ProductController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        return view('product.index', ['products' => Product::all()]);
+        if ($request->query('search')) {
+            return view('product.index', ['products' => Product::where('name', 'like', '%' . $request->query('search') . '%')->paginate($_ENV['PAGINATE_NUMBER'])]);
+        }
+        return view('product.index', ['products' => Product::latest()->paginate($_ENV['PAGINATE_NUMBER'])]);
+    }
+
+    public function details($product)
+    {
+        $find = Product::find($product);
+        return view('product.detail', ['product' => $find]);
     }
 
     public function create()
@@ -25,11 +35,15 @@ class ProductController extends Controller
                 'unit' => ['required', 'gt:0']
             ]
         );
+        $data = [
+            'name' => $formFields->name,
+            'unit' => $formFields->unit
+        ];
         // > -> gt (greater than)
 // < -> lt (less than)
 // >= -> gte (greater than or equals)
 // <= -> lte (less than or equals)
-        Product::insert($formFields);
+        Product::insert($$data);
         return redirect()->route('product.index');
     }
 
