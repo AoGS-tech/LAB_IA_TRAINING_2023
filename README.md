@@ -4,7 +4,7 @@ This is the branch for PHP training, focusing on core PHP and an popular PHP fra
 - Ubuntu 22.04 LTS
 - Visual Studio Code
 - PHP 8.2
-- MySQL 8.0
+- MySQL 8.0  
 For installation environment, refer to [this guide](/env_setup/env_setup.md).
 ## Branch details
 ...
