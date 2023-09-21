@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\HelloController;
 use App\Http\Controllers\ProductController;
+use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -17,7 +18,7 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
     return view('welcome');
-});
+})->name('welcome');
 
 Route::get('/welcome', function () {
     return view('hello', ['name' => null]);
@@ -25,16 +26,28 @@ Route::get('/welcome', function () {
 
 Route::post('/welcome', [HelloController::class, 'post']);
 
-Route::get('/product', [ProductController::class, 'index'])->name('product.index');
+//product dang nhap moi dung duoc
 
-Route::get('/product/{product}', [ProductController::class, 'details'])->name('product.details');
+Route::get('/product', [ProductController::class, 'index'])->name('product.index')->middleware('auth');
 
-Route::get('/product/create', [ProductController::class, 'create'])->name('product.create');
+Route::get('/product/{product}', [ProductController::class, 'details'])->name('product.details')->middleware('auth');
 
-Route::post('/product/create', [ProductController::class, 'save'])->name('product.save');
+Route::get('/product/create', [ProductController::class, 'create'])->name('product.create')->middleware('auth');
 
-Route::get('/product/update/{id}', [ProductController::class, 'update'])->name('product.update');
+Route::post('/product/create', [ProductController::class, 'save'])->name('product.save')->middleware('auth');
 
-Route::post('/product/save/{id}', [ProductController::class, 'confirmUpdate'])->name('product.edit');
+Route::get('/product/update/{id}', [ProductController::class, 'update'])->name('product.update')->middleware('auth');
 
-Route::delete('/product/delete/{id}', [ProductController::class, 'delete'])->name('product.delete');
+Route::post('/product/save/{id}', [ProductController::class, 'confirmUpdate'])->name('product.edit')->middleware('auth');
+
+Route::delete('/product/delete/{id}', [ProductController::class, 'delete'])->name('product.delete')->middleware(['auth','role:admin']);
+
+Route::get('/register', [UserController::class, 'registerForm'])->name('register')->middleware('guest');
+
+Route::post('/register', [UserController::class, 'tryToRegister'])->name('registerPost')->middleware('guest');
+
+Route::post('/logout',[UserController::class,'logout'])->name('logout')->middleware('auth');
+
+Route::get('/login',[UserController::class,'loginForm'])->name('login')->middleware('guest');
+
+Route::post('/login',[UserController::class,'tryToLogin'])->name('loginPost')->middleware('guest');

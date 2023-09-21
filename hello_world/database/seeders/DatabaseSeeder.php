@@ -20,6 +20,14 @@ class DatabaseSeeder extends Seeder
         //     'email' => 'test@example.com',
         // ]);
 
+        DB::table('role')->insert([
+            'name'=>'user'
+        ]);
+
+        DB::table('role')->insert([
+            'name'=>'admin'
+        ]);
+
         \App\Models\Category::factory(5)->create();
 
         \App\Models\Product::factory(5)->create();
