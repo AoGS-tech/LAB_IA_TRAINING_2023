@@ -13,9 +13,9 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
  * @author Admin
  */
 @SpringBootApplication(scanBasePackages="com.liquidrekto")
-public class Springdatajpabootdemo {
+public class Springrestapibootdemo {
     
     public static void main(String[] args) {
-        SpringApplication.run(Springdatajpabootdemo.class, args);
+        SpringApplication.run(Springrestapibootdemo.class, args);
     }
 }
