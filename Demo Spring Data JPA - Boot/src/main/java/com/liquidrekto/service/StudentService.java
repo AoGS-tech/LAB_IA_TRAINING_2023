@@ -6,6 +6,8 @@ package com.liquidrekto.service;
 
 import com.liquidrekto.data.model.Student;
 import java.util.Optional;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Page;
 
 /**
  *
@@ -16,7 +18,11 @@ public interface StudentService {
     
     Iterable<Student> findAllStudents();
     
+    Page<Student> findAllStudents(Pageable pageable);
+    
     void deleteStudent(Student std);
     
     Student saveStudent(Student std);
+    
+    
 }

@@ -9,6 +9,8 @@ import com.liquidrekto.data.repository.StudentRepository;
 import com.liquidrekto.service.StudentService;
 import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
 
 /**
@@ -40,15 +42,10 @@ public class StudentServiceImpl implements StudentService {
     public Student saveStudent(Student std) {
         return studentRepository.save(std);
     }
-    
-    
 
-    
-    
-    
-    
-    
-    
-    
+    @Override
+    public Page<Student> findAllStudents(Pageable pageable) {
+        return studentRepository.findAll(pageable);
+    }   
     
 }

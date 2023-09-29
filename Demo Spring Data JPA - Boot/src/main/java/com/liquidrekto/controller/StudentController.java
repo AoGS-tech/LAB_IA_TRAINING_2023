@@ -14,11 +14,13 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.view.RedirectView;
 /**
@@ -34,8 +36,19 @@ public class StudentController {
     ClassService csvc;
     
     @GetMapping(value={"/","/students"})
-    public ModelAndView list() {
-        Iterable<Student> list = svc.findAllStudents();
+    public ModelAndView list(@RequestParam(required=false) String offset, @RequestParam(required=false) String pageSize) {
+        int _offset = 0, _pageSize = 0;
+        if (offset == null) {
+            _offset = 0;
+        } else {
+            _offset = Integer.parseInt(offset);
+        }
+        if (pageSize == null) {
+            _pageSize = 5;
+        } else {
+            _pageSize = Integer.parseInt(pageSize);
+        }
+        Page<Student> list = svc.findAllStudents(PageRequest.of(_offset, _pageSize));
         Iterable<Class> classes = csvc.findAllClasses();
         ModelAndView mv = new ModelAndView();
         mv.setViewName("/list.jsp");

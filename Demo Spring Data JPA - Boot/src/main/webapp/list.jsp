@@ -37,7 +37,7 @@
                 <th></th>
                 <th></th>
             </tr>
-            <c:forEach items="${studentList}" var="s">
+            <c:forEach items="${studentList.getContent()}" var="s">
                 <tr>
                     <td>${s.getId()}</td>
                     <td>${s.getFirstName()}</td>
@@ -51,5 +51,26 @@
                 </tr>
             </c:forEach>
         </table>
+        <p>
+            <c:if test="${studentList.getNumber() ne 0}">
+                <a href="${pageContext.request.contextPath}?offset=${studentList.getNumber()-1}"><</a>
+            </c:if>
+            
+            <c:forEach begin="1" end="${studentList.getTotalPages()}" var="x">
+                <c:choose>
+                    <c:when test="${studentList.getNumber()+1 eq x}">
+                        <b>${x}</b>
+                    </c:when>
+                    <c:otherwise>
+                        <a href="${pageContext.request.contextPath}?offset=${x-1}">${x}</a>
+                    </c:otherwise>
+                </c:choose>
+                        
+            </c:forEach>
+            
+            <c:if test="${studentList.getNumber() ne studentList.getTotalPages() - 1}">
+                <a href="${pageContext.request.contextPath}?offset=${studentList.getNumber()+1}">></a>
+            </c:if>
+        </p>
     </body>
 </html>
